@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: catalogue-dev
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/prasanna0805/catalogue-unit-tests-git.git'
+    targetRevision: main # Replace with your desired version
+    path: helm
+    helm:
+      valueFiles:
+        - values.yaml
+        - values-dev.yaml
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: roboshop-uat
+  syncPolicy:
+    automated:
+      prune: true
